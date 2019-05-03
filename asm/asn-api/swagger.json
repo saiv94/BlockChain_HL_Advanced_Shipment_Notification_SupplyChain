@@ -1,0 +1,265 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Swagger Advnced Shipment Notification.",
+        "version": "1.0.0",
+        "title": "Swagger Advnced Shipment Notification",
+        
+        "contact": {
+            "email": "seivigz@gmail.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        }
+    },
+    "host": "localhost:3000",
+    "basePath": "/asn",
+    
+    "schemes": [
+        "http"
+    ],
+    "paths": {
+        "/EDI94Request": {
+            "post": {
+                
+                "summary": "EDI94 Request",
+                "description": "EDI94 Request",
+                "operationId": "EDI94Request",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "formData",
+                        "name": "File",
+                        "type": "file",
+                        "description": "EDI File",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "405": {
+                        "description": "Invalid input"
+                    }
+                }
+            }
+        },
+        "/EDI94Response": {
+            "post": {
+                
+                "summary": "EDI94 Response",
+                "description": "EDI94 Response",
+                "operationId": "EDI94Response",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "formData",
+                        "name": "File",
+                        "type": "file",
+                        "description": "EDI File",
+                        "required": true
+                    },
+                    {
+                        "in": "formData",
+                        "name": "TrackingId",
+                        "type": "string",
+                        "description": "Tracking Id",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "405": {
+                        "description": "Invalid input"
+                    }
+                }
+            }
+        },
+        "/EDI85Notification": {
+            "post": {
+                
+                "summary": "EDI85 Notification",
+                "description": "EDI85 Notification",
+                "operationId": "EDI85Notification",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "formData",
+                        "name": "File",
+                        "type": "file",
+                        "description": "EDI File",
+                        "required": true
+                    },
+                    {
+                        "in": "formData",
+                        "name": "TrackingId",
+                        "type": "string",
+                        "description": "Tracking Id",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "405": {
+                        "description": "Invalid input"
+                    }
+                }
+            }
+        },
+        "/SendFile": {
+            "post": {
+                
+                "summary": "Send File",
+                "description": "Send File",
+                "operationId": "SendFile",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "formData",
+                        "name": "File",
+                        "type": "file",
+                        "description": "EDI File",
+                        "required": true
+                    },
+                    {
+                        "in": "formData",
+                        "name": "TrackingId",
+                        "type": "string",
+                        "description": "Tracking Id",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "405": {
+                        "description": "Invalid input"
+                    }
+                }
+            }
+        },
+        "/getShipmentStatus": {
+            "post": {
+                
+                "summary": "get Shipment Status",
+                "description": "get Shipment Status",
+                "operationId": "getShipmentStatus",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "formData",
+                        "name": "TrackingId",
+                        "type": "string",
+                        "description": "Tracking Id",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "object",
+                            "items": {
+                                "$ref": "#/definitions/HI"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid status value"
+                    }
+                }
+            }
+        },
+        "/getShipmentHistory": {
+            "post": {
+                
+                "summary": "Get Claim History",
+                "description": "Get Claim History",
+                "operationId": "getLClaimHistory",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "formData",
+                        "name": "TrackingId",
+                        "type": "string",
+                        "description": "Tracking Id",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/HI"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid status value"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "OF": {
+            "type": "object",
+            "properties": {
+                "TrackingId": {
+                    "type": "string",
+                    "description": "Tracking ID"
+                },
+                "File": {
+                    "type": "file",
+                    "description": "EDI File"
+                }
+            }
+        },
+        "OT": {
+            "type": "object",
+            "properties": {
+                "TrackingId": {
+                    "type": "string",
+                    "description": "Tracking ID"
+                }
+            }
+        },
+        "TF": {
+            "type": "object",
+            "properties": {
+                "File": {
+                    "type": "file",
+                    "description": "EDI File"
+                }
+            }
+        }
+    },
+    "externalDocs": {
+        "description": "Find out more about Swagger",
+        "url": "http://swagger.io"
+    }
+}
