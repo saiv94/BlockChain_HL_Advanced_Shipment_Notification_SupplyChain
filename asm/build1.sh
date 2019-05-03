@@ -9,3 +9,5 @@ echo "Network started"
 echo "Following is the docker network....."
 
 docker ps
+
+

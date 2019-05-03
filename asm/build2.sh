@@ -2,8 +2,6 @@ echo "Setting up the network.."
 
 echo "Creating channel genesis block.."
 
-# Create the channel
-#docker exec -e "CORE_PEER_LOCALMSPID=BankMSP" -e "CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/EDICUSTOMER.asn.com/users/Admin@EDICUSTOMER.asn.com/msp" -e "CORE_PEER_ADDRESS=peer0.EDICUSTOMER.asn.com:7051" cli peer channel create -o orderer.asn.com:7050 -c asnchannel -f /etc/hyperledger/configtx/asnchannel.tx
 
 docker exec -e "CORE_PEER_LOCALMSPID=EDICUSTOMERMSP" -e "CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/EDICUSTOMER.asn.com/users/Admin@EDICUSTOMER.asn.com/msp" -e "CORE_PEER_ADDRESS=peer0.EDICUSTOMER.asn.com:7051" cli peer channel create -o orderer.asn.com:7050 -c asnchannel -f ./crypto/asnchannel.tx
 
@@ -82,7 +80,6 @@ sleep 5
 
 echo "Instantiating asn chaincode.."
 
-#docker exec -e "CORE_PEER_LOCALMSPID=BankMSP" -e "CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/EDICUSTOMER.asn.com/users/Admin@EDICUSTOMER.asn.com/msp" -e "CORE_PEER_ADDRESS=peer0.EDICUSTOMER.asn.com:7051" cli peer chaincode instantiate -o orderer.asn.com:7050 -C asnchannel -n asncc -l golang -v 1.0 -c '{"Args":["init"]}' -P "OR ('BankMSP.member','BuyerMSP.member','SellerMSP.member')"
 
 docker exec -e "CORE_PEER_LOCALMSPID=MAHMSP" -e "CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/MAH.asn.com/users/Admin@MAH.asn.com/msp" -e "CORE_PEER_ADDRESS=peer0.MAH.asn.com:7051" cli peer chaincode instantiate -o orderer.asn.com:7050 -C asnchannel -n asncc -l golang -v 1.1 -c '{"Args":["init"]}'
 
@@ -91,3 +88,16 @@ echo "Instantiated asn chaincode."
 echo "Following is the docker network....."
 
 docker ps
+
+cd asn-api
+
+rm hfc-key-store/*
+
+node enroll3PLUser
+node enrollEDICUSTOMERUser
+node enrollMAHUser
+node enrollNONEDICUSTOMERUser
+
+npm install
+
+npm start
